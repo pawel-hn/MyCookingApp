@@ -1,0 +1,43 @@
+object Dependencies {
+
+    const val kotlinCore = "org.jetbrains.kotlin:kotlin-stdlib:${DependenciesVersions.kotlinVersion}"
+    const val kotlinKtx = "androidx.core:core-ktx:${DependenciesVersions.kotlinKtxVersion}"
+    const val appCompat = "androidx.appcompat:appcompat:${DependenciesVersions.appCompatVersion}"
+    const val googleMaterial = "com.google.android.material:material:${DependenciesVersions.googleMaterialVersion}"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:${DependenciesVersions.constraintLayoutVersion}"
+    const val navigationFragmentKtx = "androidx.navigation:navigation-fragment-ktx:${DependenciesVersions.navigationComponentVersion}"
+    const val navigationUiKtx = "androidx.navigation:navigation-ui-ktx:${DependenciesVersions.navigationComponentVersion}"
+    const val annotation = "androidx.annotation:annotation:${DependenciesVersions.annotationVersion}"
+    const val retrofit = "com.squareup.retrofit2:retrofit:${DependenciesVersions.retrofitVersion}"
+    const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${DependenciesVersions.retrofitVersion}"
+    const val roomCore = "androidx.room:room-runtime:${DependenciesVersions.roomVersion}"
+    const val roomKapt = "androidx.room:room-compiler:${DependenciesVersions.roomVersion}"
+    const val roomKtx = "androidx.room:room-ktx:${DependenciesVersions.roomVersion}"
+    const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${DependenciesVersions.liveDataVersion}"
+    const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${DependenciesVersions.coroutinesVersion}"
+    const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependenciesVersions.coroutinesVersion}"
+    const val hiltCore = "com.google.dagger:hilt-android:${DependenciesVersions.hiltVersion}"
+    const val hiltKapt = "com.google.dagger:hilt-android-compiler:${DependenciesVersions.hiltVersion}"
+    const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${DependenciesVersions.coroutinesVersion}"
+    const val junitTest = "androidx.test.ext:junit:${DependenciesVersions.junitTestVersion}"
+    const val junit = "junit:junit:${DependenciesVersions.junitVersion}"
+    const val espressoCore = "androidx.test.espresso:espresso-core:${DependenciesVersions.espressoVersion}"
+    const val googleTruth = "com.google.truth:truth:1.1.2"
+    const val coreTesting = "androidx.arch.core:core-testing:2.1.0"
+    const val hiltWorkManager = "androidx.hilt:hilt-work:1.0.0-beta01"
+    const val hiltKaptAndroidx = "androidx.hilt:hilt-compiler:1.0.0-beta01"
+    const val paging = "androidx.paging:paging-runtime-ktx:${DependenciesVersions.pagingVersion}"
+    const val glideCore = "com.github.bumptech.glide:glide:${DependenciesVersions.glideVersion}"
+    const val glideKapt = "com.github.bumptech.glide:compiler:${DependenciesVersions.glideVersion}"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${DependenciesVersions.fragmentKtxVersion}"
+    const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${DependenciesVersions.viewModelKtxVersion}"
+    const val firebaseAuth = "com.google.firebase:firebase-auth-ktx:${DependenciesVersions.firebaseAuthVersion}"
+    const val firebaseBom = "com.google.firebase:firebase-bom:${DependenciesVersions.firebaseBomVersion}"
+    const val fireStore = "com.google.firebase:firebase-firestore-ktx:${DependenciesVersions.firestoreVersion}"
+    const val timber = "com.jakewharton.timber:timber:${DependenciesVersions.timberVersion}"
+    const val dataStore = "androidx.datastore:datastore-preferences:${DependenciesVersions.dataStoreVersion}"
+
+
+
+
+}

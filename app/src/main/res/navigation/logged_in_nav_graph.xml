@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reg_log_nav_graph"
+    android:label="@string/label"
+    app:startDestination="@id/recipesFragment">
+    <fragment
+        android:id="@+id/recipesFragment"
+        android:name="pawel.hn.mycookingapp.fragments.RecipesFragment"
+        android:label="fragment_recipes"
+        tools:layout="@layout/fragment_recipes" >
+        <action
+            android:id="@+id/action_recipesFragment_to_recipesBottomSheet"
+            app:destination="@id/recipesBottomSheet" />
+        <argument
+            android:name="mealAndDietType"
+            app:argType="pawel.hn.mycookingapp.model.MealAndDietType"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_recipesFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_recipesFragment_to_addFavouriteDialog"
+            app:destination="@id/addFavouriteDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/recipesBottomSheet"
+        android:name="pawel.hn.mycookingapp.fragments.RecipesBottomSheet"
+        android:label="RecipesBottomSheet" >
+        <action
+            android:id="@+id/action_recipesBottomSheet_to_recipesFragment"
+            app:destination="@id/recipesFragment" />
+        <argument
+            android:name="mealTypeId"
+            app:argType="integer" />
+        <argument
+            android:name="dietTypeId"
+            app:argType="integer" />
+        <argument
+            android:name="mealType"
+            app:argType="string" />
+        <argument
+            android:name="dietType"
+            app:argType="string" />
+    </dialog>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="pawel.hn.mycookingapp.fragments.SavedRecipesFragment"
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_saved_recipes" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_addFavouriteDialog"
+            app:destination="@id/addFavouriteDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="pawel.hn.mycookingapp.fragments.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="sourceUrl"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFavouriteDialog"
+        android:name="pawel.hn.mycookingapp.fragments.SaveRecipeFragment"
+        android:label="dialog_favourite"
+        tools:layout="@layout/dialog_favourite" >
+        <argument
+            android:name="recipe"
+            app:argType="pawel.hn.mycookingapp.model.Recipe"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="favouriteRecipe"
+            app:argType="pawel.hn.mycookingapp.model.FavouriteRecipe"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_addFavouriteDialog_to_recipesFragment"
+            app:destination="@id/recipesFragment" />
+    </fragment>
+</navigation>

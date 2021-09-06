@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">MyCookingApp</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="label">My Cooking App</string>
+    <string name="prompt_password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="action_register_account">Register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="no_account_create_here">No account? Create here</string>
+    <string name="reset_password">Reset password</string>
+    <string name="got_account_login_here">Got the account? Login here</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset">Reset password</string>
+    <string name="sent">Sent</string>
+    <string name="register">Register new account</string>
+    <string name="login">Sign in</string>
+    <string name="log_out">Log out</string>
+    <string name="logged_as">Logged as: %1$s</string>
+    <string name="minutes">%1d mins</string>
+    <string name="choose_criteria">Choose criteria</string>
+    <string name="no_results">No results found for this query</string>
+    <string name="retry">Retry</string>
+    <string name="connection_error">Connection error</string>
+
+    //Bottom sheet
+    <string name="meal_type">Meal Type</string>
+    <string name="main_course">Main Course</string>
+    <string name="side_dish">Side Dish</string>
+    <string name="dessert">Dessert</string>
+    <string name="appetizer">Appetizer</string>
+    <string name="salad">Salad</string>
+    <string name="bread">Bread</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="soup">Soup</string>
+    <string name="beverage">Beverage</string>
+    <string name="sauce">Sauce</string>
+    <string name="marinade">Marinade</string>
+    <string name="fingerfood">FingerFood</string>
+    <string name="snack">Snack</string>
+    <string name="drink">Drink</string>
+    <string name="gluten_free">Gluten Free</string>
+    <string name="ketogenic">Ketogenic</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="vegan">Vegan</string>
+    <string name="pescetarian">Pescetarian</string>
+    <string name="paleo">Paleo</string>
+    <string name="primal">Primal</string>
+    <string name="whole30">Whole30</string>
+    <string name="diet_type">Diet Type</string>
+    <string name="apply">Apply</string>
+    <string name="search">Search</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cheap">Cheap</string>
+    <string name="healthy">Healthy</string>
+    <string name="dairy_free">Dairy Free</string>
+    <string name="time">Time</string>
+    <string name="likes">Likes</string>
+    <string name="save_to_favourite">Save to favourite</string>
+    <string name="no_favourites">No favourites</string>
+    <string name="delete_favourite">Delete favourite</string>
+    <string name="share">Share</string>
+
+
+    <string name="not_cooked">Not \n Cooked</string>
+    <string name="cooked">Cooked</string>
+    <string name="food_photo">food photo</string>
+    <string name="title">Title</string>
+    <string name="cooked_q">Cooked?</string>
+    <string name="enter_comments_here">Enter comments here</string>
+    <string name="save">Save</string>
+
+</resources>

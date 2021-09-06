@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "597080674557",
+    "project_id": "mycookingapp-a01e8",
+    "storage_bucket": "mycookingapp-a01e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597080674557:android:a49c9c2615648ea63e2e94",
+        "android_client_info": {
+          "package_name": "pawel.hn.mycookingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597080674557-2iql5tkb8p5abgdd3aohs7vh9ej3hb2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTEEyfRzG5ro-3n_QvhWM0Ia4ApXuUCTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597080674557-2iql5tkb8p5abgdd3aohs7vh9ej3hb2o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
