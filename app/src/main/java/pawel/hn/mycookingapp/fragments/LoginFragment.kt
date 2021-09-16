@@ -72,7 +72,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun subscribeToListeners(binding: FragmentLoginBinding) {
-
         binding.apply {
 
             buttonLogin.setOnClickListener {
