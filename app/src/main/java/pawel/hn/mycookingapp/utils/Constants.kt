@@ -32,7 +32,6 @@ const val FIELD_COOKED = "cooked"
 const val FIELD_READY_IN_MINS = "readInMins"
 const val FIELD_VEGE = "vege"
 
-
 //datastore
 const val PREFERENCE_NAME = "food_preference"
 const val PREFERENCE_MEAL_TYPE = "mealType"
