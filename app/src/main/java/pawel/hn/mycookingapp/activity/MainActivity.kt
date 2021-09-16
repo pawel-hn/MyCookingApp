@@ -16,17 +16,14 @@ class MainActivity : AppCompatActivity() {
         if (userAlreadyLoggedAndVerified()) {
             val intent = Intent(this, LoggedInActivity::class.java).apply {
                 flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             }
             startActivity(intent)
-
         }
         setContentView(R.layout.activity_main)
     }
 
-
-
-
-    fun userAlreadyLoggedAndVerified(): Boolean {
+    private fun userAlreadyLoggedAndVerified(): Boolean {
         val firebaseAuth = FirebaseAuth.getInstance()
         return if (firebaseAuth.currentUser != null) {
             firebaseAuth.currentUser!!.isEmailVerified
@@ -34,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
-
 }
 
 

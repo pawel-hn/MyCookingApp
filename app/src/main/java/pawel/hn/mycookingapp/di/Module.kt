@@ -7,7 +7,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import pawel.hn.mycookingapp.database.RecipesDao
 import pawel.hn.mycookingapp.database.RecipesDatabase
+import pawel.hn.mycookingapp.database.RemoteKeysDao
+import pawel.hn.mycookingapp.database.SavedRecipesDao
 import pawel.hn.mycookingapp.utils.BASE_URL
 import pawel.hn.mycookingapp.network.RecipesApi
 import retrofit2.Retrofit
@@ -40,8 +43,21 @@ object Module {
     fun providesDatabase(app: Application): RecipesDatabase = Room.databaseBuilder(
         app,
         RecipesDatabase::class.java,
-        "recipesDatabse"
-    ).build()
+        "recipesDatabase"
+    )
+        .allowMainThreadQueries()
+        .build()
 
 
+    @Provides
+    @Singleton
+    fun providesSavedRecipesDao(database: RecipesDatabase): SavedRecipesDao = database.savedRecipesDao()
+
+    @Provides
+    @Singleton
+    fun providesRecipesDao(database: RecipesDatabase): RecipesDao = database.recipesDao()
+
+    @Provides
+    @Singleton
+    fun providesRemoteKeysDao(database: RecipesDatabase): RemoteKeysDao = database.remoteKeysDao()
 }

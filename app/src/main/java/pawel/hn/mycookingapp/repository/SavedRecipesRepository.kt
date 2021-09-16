@@ -1,23 +1,30 @@
-package pawel.hn.mycookingapp.data
+package pawel.hn.mycookingapp.repository
+
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import pawel.hn.mycookingapp.database.SavedRecipesDao
 import pawel.hn.mycookingapp.model.FavouriteRecipe
 import pawel.hn.mycookingapp.utils.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class FirestoreData @Inject constructor() {
+class SavedRecipesRepository @Inject constructor(private val savedRecipesDao: SavedRecipesDao) {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val fireStore = Firebase.firestore
     private val fireUserId = firebaseAuth.currentUser!!.uid
     private val collectionRef = fireStore.collection(fireUserId)
+    private val coroutine = CoroutineScope(Dispatchers.IO)
 
     val savedRecipesLiveData = MutableLiveData<Resource<List<FavouriteRecipe>>>()
 
-    fun saveRecipeToFireStore(favouriteRecipe: FavouriteRecipe) {
+    private fun saveRecipeToFireStore(favouriteRecipe: FavouriteRecipe) {
 
         val recipe = hashMapOf(
             FIELD_TITLE to favouriteRecipe.title,
@@ -38,7 +45,7 @@ class FirestoreData @Inject constructor() {
             }
     }
 
-    fun getSavedRecipes(): List<FavouriteRecipe> {
+    fun getRecipesFromFirestore() {
         savedRecipesLiveData.value = Resource.Loading()
         val recipes = mutableListOf<FavouriteRecipe>()
         collectionRef.get()
@@ -60,18 +67,36 @@ class FirestoreData @Inject constructor() {
                     )
                 }
                 savedRecipesLiveData.value = Resource.Success(recipes)
+
+                coroutine.launch {
+                    offlineCacheRecipes(recipes)
+                }
             }
             .addOnFailureListener {
                 Timber.d(it, "PHN, ${it.message}")
                 savedRecipesLiveData.value = Resource.Error(it)
             }
-        return recipes
     }
 
-    fun deleteSavedRecipe(favouriteRecipe: FavouriteRecipe) {
+     fun getSavedRecipesList() = savedRecipesDao.getSavedRecipesList()
+
+    suspend fun deleteSavedRecipe(favouriteRecipe: FavouriteRecipe) {
         collectionRef.document(favouriteRecipe.id.toString()).delete()
+        savedRecipesDao.deleteRecipe(favouriteRecipe)
     }
 
     fun logOut() = firebaseAuth.signOut()
+
+    private suspend fun offlineCacheRecipes(recipes: List<FavouriteRecipe>) {
+        savedRecipesDao.saveAllRecipes(recipes)
+    }
+
+    suspend fun saveRecipe(favouriteRecipe: FavouriteRecipe) {
+        saveRecipeToFireStore(favouriteRecipe)
+        savedRecipesDao.saveRecipe(favouriteRecipe)
+    }
+
+    fun getSavedRecipesFromLocal(): Flow<List<FavouriteRecipe>> = savedRecipesDao.getSavedRecipesFlow()
+
 
 }

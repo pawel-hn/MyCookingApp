@@ -14,7 +14,6 @@ class RecipesPagingSource(
     private val queries: HashMap<String, String>
 ) : PagingSource<Int, Recipe>() {
 
-
     override fun getRefreshKey(state: PagingState<Int, Recipe>): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(20)
@@ -22,9 +21,8 @@ class RecipesPagingSource(
         }
     }
 
-
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Recipe> {
+
         val offset = params.key ?: 0
 
         Timber.d("load: ${queries[QUERY_MEAL]} PHN")
@@ -32,9 +30,11 @@ class RecipesPagingSource(
         queries[QUERY_OFFSET] = offset.toString()
         queries[QUERY_NUMBER] = params.loadSize.toString()
 
-
+        Timber.d("offset: : $offset PHN")
+        Timber.d("size to load: ${params.loadSize} PHN")
         return try {
             val response = recipesApi.getRecipes(queries)
+
             val recipes = response.recipes
 
             LoadResult.Page(

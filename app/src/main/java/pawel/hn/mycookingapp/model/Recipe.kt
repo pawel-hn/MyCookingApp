@@ -1,20 +1,18 @@
 package pawel.hn.mycookingapp.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
+@Entity(tableName = "foodRecipe")
 data class Recipe(
+    @PrimaryKey val id: Int,
     val aggregateLikes: Int,
     val cheap: Boolean,
     val dairyFree: Boolean,
-    val diets: List<String>,
-    val dishTypes: List<String>,
-    val extendedIngredients: List<ExtendedIngredient>,
-    val gaps: String,
-    val glutenFree: Boolean,
-    val id: Int,
     val image: String,
     val readyInMinutes: Int,
     val sourceName: String?,

@@ -10,10 +10,16 @@ interface SavedRecipesDao {
 
 
     @Query("SELECT * FROM savedRecipes")
-    fun getSavedRecipes(): Flow<List<FavouriteRecipe>>
+    fun getSavedRecipesFlow(): Flow<List<FavouriteRecipe>>
+
+    @Query("SELECT * FROM savedRecipes")
+     fun getSavedRecipesList(): List<FavouriteRecipe>
 
     @Query("DELETE FROM savedRecipes")
     suspend fun deleteAllSaveRecipes()
+
+    @Delete(entity = FavouriteRecipe::class )
+    suspend fun deleteRecipe(favouriteRecipe: FavouriteRecipe)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveAllRecipes(favouriteRecipe: List<FavouriteRecipe>)

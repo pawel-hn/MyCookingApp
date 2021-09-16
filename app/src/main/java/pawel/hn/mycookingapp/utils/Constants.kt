@@ -1,12 +1,9 @@
 package pawel.hn.mycookingapp.utils
 
-
-
 const val REGISTER_RESULT = "registerUser"
 const val RESET_RESULT = "resetPassword"
 const val FRAGMENT_RESULT_KEY = "result"
 const val REGISTER_RESULT_BUNDLE_KEY = "result"
-
 
 const val BASE_URL ="https://api.spoonacular.com/"
 

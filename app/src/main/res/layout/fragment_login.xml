@@ -5,11 +5,16 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/fragment_horizontal_margin"
-    android:paddingTop="@dimen/fragment_vertical_margin"
-    android:paddingRight="@dimen/fragment_horizontal_margin"
-    android:paddingBottom="@dimen/fragment_vertical_margin"
     tools:context=".fragments.LoginFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="@drawable/vege"
+        android:contentDescription="@string/background_pic" />
+
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username"
@@ -17,8 +22,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="220dp"
         android:layout_marginEnd="24dp"
+        app:boxBackgroundColor="@color/white"
         android:autofillHints="@string/prompt_email"
         android:hint="@string/prompt_email"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,9 +34,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_login_user"
             android:layout_width="match_parent"
-            android:selectAllOnFocus="true"
             android:layout_height="match_parent"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
+        android:background="@color/white"
         android:layout_marginEnd="24dp"
         android:autofillHints="@string/prompt_password"
         android:hint="@string/prompt_password"
@@ -56,8 +63,8 @@
             android:id="@+id/edit_text_login_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:selectAllOnFocus="true"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:selectAllOnFocus="true" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -90,6 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:textStyle="bold"
         android:text="@string/no_account_create_here"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,6 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:textStyle="bold"
         android:text="@string/reset_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

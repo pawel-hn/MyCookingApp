@@ -74,5 +74,7 @@
     <string name="cooked_q">Cooked?</string>
     <string name="enter_comments_here">Enter comments here</string>
     <string name="save">Save</string>
+    <string name="background_pic">background pic</string>
+    <string name="items">Items</string>
 
 </resources>

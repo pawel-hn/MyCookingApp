@@ -10,25 +10,30 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import pawel.hn.mycookingapp.R
 import pawel.hn.mycookingapp.activity.MainActivity
 import pawel.hn.mycookingapp.adapters.RecipesAdapter
 import pawel.hn.mycookingapp.adapters.RecipesLoadStateAdapter
 import pawel.hn.mycookingapp.databinding.FragmentRecipesBinding
+import pawel.hn.mycookingapp.model.FavouriteRecipe
 import pawel.hn.mycookingapp.model.Recipe
 import pawel.hn.mycookingapp.utils.DEFAULT_DIET_TYPE
 import pawel.hn.mycookingapp.utils.DEFAULT_MEAL_TYPE
-import pawel.hn.mycookingapp.utils.Resource
 import pawel.hn.mycookingapp.viewmodels.RecipesViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
+@ExperimentalPagingApi
 @InternalCoroutinesApi
 @AndroidEntryPoint
 class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.RecipesOnClickListener {
@@ -40,10 +45,12 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
     private var dietTypeChipId = 0
     private var mealType = DEFAULT_MEAL_TYPE
     private var dietType = DEFAULT_DIET_TYPE
+    private var savedList = emptyList<FavouriteRecipe>()
 
     private val recipesViewModel: RecipesViewModel by viewModels()
     private lateinit var binding: FragmentRecipesBinding
     private lateinit var recipesAdapter: RecipesAdapter
+    private lateinit var loadStateAdapter: RecipesLoadStateAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +74,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
         val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav?.isVisible = true
 
+
         setAdapter()
         subscribeToObservers()
         subscribeToListeners()
@@ -82,12 +90,14 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
             mealType = it.mealType
             dietType = it.dietType
 
-            Timber.d("observer: $mealType PHN")
+
         }
 
-        recipesViewModel.recipesLiveData.observe(viewLifecycleOwner) {
-
-            recipesAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            recipesViewModel.recipesToObserve.collectLatest {
+                recipesAdapter.submitData(it)
+                Timber.d("PHN, observer size: ${recipesAdapter.itemCount}")
+            }
         }
     }
 
@@ -107,28 +117,35 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
     }
 
     private fun setAdapter() {
-        val list = recipesViewModel.savedRecipes
+        recipesViewModel.getSavedRecipes()
 
-        recipesAdapter = RecipesAdapter(this, list)
+        recipesAdapter = RecipesAdapter(this, recipesViewModel.list)
+        loadStateAdapter = RecipesLoadStateAdapter { recipesAdapter.retry() }
 
         binding.apply {
-            recipesRecyclerView.setHasFixedSize(true)
-            recipesRecyclerView.adapter = recipesAdapter.withLoadStateHeaderAndFooter(
-                header = RecipesLoadStateAdapter { recipesAdapter.retry() },
-                footer = RecipesLoadStateAdapter { recipesAdapter.retry() }
-            )
+            recipesRecyclerView.adapter = recipesAdapter.withLoadStateFooter(loadStateAdapter)
+
         }
     }
 
     private fun setUiStates() {
+
         recipesAdapter.addLoadStateListener { loadState ->
             binding.apply {
+                recipesProgressBar.isVisible = loadState.mediator?.refresh is LoadState.Loading
                 recipesProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                recipesRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
-                buttonRecipesRetry.isVisible = loadState.source.refresh is LoadState.Error
-                textViewRecipesError.isVisible = loadState.source.refresh is LoadState.Error
+
+                recipesRecyclerView.isVisible =loadState.mediator?.refresh is LoadState.NotLoading
+                recipesRecyclerView.isVisible =loadState.source.refresh is LoadState.NotLoading
+
+                buttonRecipesRetry.isVisible =loadState.mediator?.refresh is LoadState.Error
+                buttonRecipesRetry.isVisible =loadState.source.refresh is LoadState.Error
+
+                textViewRecipesError.isVisible =loadState.mediator?.refresh is LoadState.Error
+                textViewRecipesError.isVisible =loadState.source.refresh is LoadState.Error
 
                 if (loadState.source.refresh is LoadState.NotLoading &&
+                    loadState.mediator?.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
                     recipesAdapter.itemCount < 1
                 ) {
@@ -152,6 +169,9 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
                 activity?.finish()
+            }
+            R.id.menu_text_view -> {
+                Timber.d("PHN, items: ${recipesAdapter.itemCount}")
             }
             else -> super.onOptionsItemSelected(item)
         }

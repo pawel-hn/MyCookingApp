@@ -6,6 +6,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import pawel.hn.mycookingapp.R
@@ -29,13 +31,42 @@ class SavedRecipesFragment : Fragment(R.layout.fragment_saved_recipes), SavedRec
         bottomNav?.isVisible = true
 
         savedRecipesAdapter = SavedRecipesAdapter(this)
+
         binding = FragmentSavedRecipesBinding.bind(view)
-        binding.recyclerViewSaved.adapter = savedRecipesAdapter
+        binding.apply {
+            recyclerViewSaved.adapter = savedRecipesAdapter
+            ItemTouchHelper(swipe).attachToRecyclerView(recyclerViewSaved)
+        }
+        readCachedRecipes()
+    }
 
+    val swipe = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder,
+        ): Boolean = false
 
-        savedRecipesViewModel.getSavedRecipes()
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val recipe = savedRecipesAdapter.currentList[viewHolder.bindingAdapterPosition]
+            savedRecipesViewModel.deleteRecipe(recipe)
+        }
+    }
 
-        savedRecipesViewModel.savedRecipesLiveData.observe(viewLifecycleOwner) { resource ->
+    private fun readCachedRecipes() {
+        savedRecipesViewModel.cachedRecipes.observe(viewLifecycleOwner) { cachedRecipes ->
+            if(cachedRecipes.isNotEmpty()) {
+                savedRecipesAdapter.submitList(cachedRecipes)
+            } else {
+                requestDataFromFireStore()
+            }
+        }
+    }
+
+    private fun requestDataFromFireStore() {
+        savedRecipesViewModel.getRecipesFromFireStore()
+
+        savedRecipesViewModel.recipesResponse.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Loading -> {
                     binding.progressBarSaved.visibility = View.VISIBLE
@@ -45,7 +76,7 @@ class SavedRecipesFragment : Fragment(R.layout.fragment_saved_recipes), SavedRec
                     binding.buttonSavedRetry.visibility = View.VISIBLE
 
                     binding.buttonSavedRetry.setOnClickListener {
-                        savedRecipesViewModel.getSavedRecipes()
+                        savedRecipesViewModel.getRecipesFromFireStore()
                     }
                 }
                 is Resource.Success -> {
@@ -55,7 +86,6 @@ class SavedRecipesFragment : Fragment(R.layout.fragment_saved_recipes), SavedRec
             }
         }
     }
-
 
     override fun onClickRecipe(favouriteRecipe: FavouriteRecipe) {
         val action = SavedRecipesFragmentDirections.actionFavouritesFragmentToAddFavouriteDialog(

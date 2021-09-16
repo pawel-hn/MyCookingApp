@@ -69,14 +69,9 @@ class SaveRecipeFragment : Fragment(R.layout.dialog_favourite) {
             buttonSave.setOnClickListener {
                 val newFavouriteRecipe = createNewFavouriteRecipe(recipe, favouriteRecipe)
                 saveRecipeViewModel.saveRecipe(newFavouriteRecipe)
-                val action = SaveRecipeFragmentDirections.actionAddFavouriteDialogToRecipesFragment()
-                findNavController().navigate(action)
+
+                findNavController().popBackStack()
             }
-
-            val sss = "dd"
-
-            sss.length
-            "sss".length
 
             buttonCancel.setOnClickListener {
                 findNavController().popBackStack()
@@ -105,7 +100,7 @@ class SaveRecipeFragment : Fragment(R.layout.dialog_favourite) {
             favouriteRecipe!!.id,
             favouriteRecipe.title,
             favouriteRecipe.image,
-            favouriteRecipe.readyInMinutes.toString(),
+            favouriteRecipe.readyInMinutes,
             favouriteRecipe.sourceUrl,
             favouriteRecipe.vegetarian,
             binding.editTextComments.text.toString(),

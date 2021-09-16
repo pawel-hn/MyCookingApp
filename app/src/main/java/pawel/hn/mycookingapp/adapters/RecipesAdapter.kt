@@ -33,6 +33,7 @@ class RecipesAdapter
         }
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = FragmentRecipesItemBinding.inflate(inflater, parent, false)

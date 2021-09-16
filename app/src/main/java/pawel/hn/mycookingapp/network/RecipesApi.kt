@@ -9,7 +9,7 @@ interface RecipesApi {
     @GET("/recipes/complexSearch")
     suspend fun getRecipes(
         @QueryMap queries: Map<String, String>
-    ) : FoodRecipe
+        ) : FoodRecipe
 
 
 

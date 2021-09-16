@@ -1,36 +1,45 @@
 package pawel.hn.mycookingapp.viewmodels
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pawel.hn.mycookingapp.model.FavouriteRecipe
-import pawel.hn.mycookingapp.repository.FirestoreRepository
+import pawel.hn.mycookingapp.repository.SavedRecipesRepository
+import pawel.hn.mycookingapp.utils.Resource
 import javax.inject.Inject
 
 @HiltViewModel
 class SaveRecipeViewModel @Inject constructor(
-    private val firestoreRepository: FirestoreRepository) : ViewModel() {
+    private val savedRecipesRepository: SavedRecipesRepository,
+) : ViewModel() {
 
-    val savedRecipesLiveData = firestoreRepository.savedRecipesLiveData
+    //val savedRecipesLiveData = firestoreRepository.savedRecipesLiveData
 
-    fun  getSavedRecipes() = firestoreRepository.getRecipes()
+    val cachedRecipes = savedRecipesRepository.getSavedRecipesFromLocal().asLiveData()
+    val recipesResponse = savedRecipesRepository.savedRecipesLiveData
 
 
-//    fun getSavedRecipes() {
-//        viewModelScope.launch {
-//            firestoreRepository.getSavedRecipes()
-//        }
-//    }
+    // fun getSavedRecipes() = firestoreRepository.getRecipes()
 
-        fun saveRecipe(favouriteRecipe: FavouriteRecipe) {
-            viewModelScope.launch {
-                firestoreRepository.
-                saveRecipe(favouriteRecipe)
-            }
+    fun getRecipesFromFireStore() {
+        savedRecipesRepository.getRecipesFromFirestore()
+    }
+
+    fun saveRecipe(favouriteRecipe: FavouriteRecipe) {
+        viewModelScope.launch(Dispatchers.IO) {
+            savedRecipesRepository.saveRecipe(favouriteRecipe)
         }
+    }
 
+    fun deleteRecipe(favouriteRecipe: FavouriteRecipe) {
+        viewModelScope.launch(Dispatchers.IO) {
+            savedRecipesRepository.deleteSavedRecipe(favouriteRecipe)
+        }
+    }
 
 
 
