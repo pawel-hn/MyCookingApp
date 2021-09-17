@@ -19,8 +19,6 @@ class RecipesAdapter
     private val list: List<FavouriteRecipe>,
 ) : PagingDataAdapter<Recipe, RecipesAdapter.RecipeViewHolder>(MyDiffUtil()) {
 
-
-
     interface RecipesOnClickListener {
         fun onClickRecipe(url: String)
         fun onClickAdd(recipe: Recipe)
@@ -32,7 +30,6 @@ class RecipesAdapter
             holder.bind(it)
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -68,9 +65,7 @@ class RecipesAdapter
                     listener.onClickRecipe(recipe.sourceUrl)
                 }
 
-
-
-                val item = list.find { it.id == recipe.id}
+                val item = list.find { it.id == recipe.id }
                 buttonAdd.isEnabled = item == null
                 if (buttonAdd.isEnabled) {
                     buttonAdd.apply {
@@ -86,11 +81,8 @@ class RecipesAdapter
                         AppCompatResources.getDrawable(root.context, R.drawable.ic_ok)
                     )
                 }
-
-
             }
         }
-
     }
 }
 

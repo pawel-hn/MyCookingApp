@@ -27,7 +27,7 @@ class RecipesRepository @Inject constructor(
                 maxSize = 100,
                 enablePlaceholders = false),
             pagingSourceFactory = { RecipesPagingSource(recipesApi, queries) }
-        ).flow
+        ).liveData
 
 
     fun getRecipesCached(queries: HashMap<String, String>): Flow<PagingData<Recipe>> {

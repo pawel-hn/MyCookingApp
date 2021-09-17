@@ -15,11 +15,13 @@ import pawel.hn.mycookingapp.R
 import pawel.hn.mycookingapp.databinding.FragmentSaveItemBinding
 import pawel.hn.mycookingapp.model.FavouriteRecipe
 
-class SavedRecipesAdapter(private val listener: SavedRecipesListener)
-    : ListAdapter<FavouriteRecipe, SavedRecipesAdapter.SavedRecipesViewHolder>(SavedRecipesDiffCallback()) {
+class SavedRecipesAdapter(private val listener: SavedRecipesListener) :
+    ListAdapter<FavouriteRecipe, SavedRecipesAdapter.SavedRecipesViewHolder>(
+        SavedRecipesDiffCallback()) {
 
     interface SavedRecipesListener {
-        fun onClickRecipe(favouriteRecipe: FavouriteRecipe)
+        fun onClickEdit(favouriteRecipe: FavouriteRecipe)
+        fun onClickRecipe(url: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedRecipesViewHolder {
@@ -41,7 +43,8 @@ class SavedRecipesAdapter(private val listener: SavedRecipesListener)
                 if (!textViewComment.isVisible) {
                     textViewComment.apply {
                         visibility = View.VISIBLE
-                        text = recipe.comment
+                        text =
+                            if (recipe.comment.isEmpty()) "   --- no comments ---" else recipe.comment
                     }
 
                     buttonComment.setImageDrawable(AppCompatResources
@@ -50,7 +53,10 @@ class SavedRecipesAdapter(private val listener: SavedRecipesListener)
                     constrainSet.run {
                         clone(constrainLayoutSave)
                         clear(R.id.imageView_saved, ConstraintSet.BOTTOM)
-                        connect(R.id.imageView_saved, ConstraintSet.BOTTOM, R.id.text_view_comment, ConstraintSet.TOP)
+                        connect(R.id.imageView_saved,
+                            ConstraintSet.BOTTOM,
+                            R.id.text_view_comment,
+                            ConstraintSet.TOP)
                         applyTo(constrainLayoutSave)
                     }
 
@@ -63,7 +69,10 @@ class SavedRecipesAdapter(private val listener: SavedRecipesListener)
                     constrainSet.run {
                         clone(constrainLayoutSave)
                         clear(R.id.imageView_saved, ConstraintSet.BOTTOM)
-                        connect(R.id.imageView_saved, ConstraintSet.BOTTOM, root.id, ConstraintSet.BOTTOM)
+                        connect(R.id.imageView_saved,
+                            ConstraintSet.BOTTOM,
+                            root.id,
+                            ConstraintSet.BOTTOM)
                         applyTo(constrainLayoutSave)
                     }
                 }
@@ -71,7 +80,8 @@ class SavedRecipesAdapter(private val listener: SavedRecipesListener)
         }
     }
 
-    inner class SavedRecipesViewHolder(val binding: FragmentSaveItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class SavedRecipesViewHolder(val binding: FragmentSaveItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(favouriteRecipe: FavouriteRecipe) {
 
@@ -96,17 +106,19 @@ class SavedRecipesAdapter(private val listener: SavedRecipesListener)
                     .into(imageViewSaved)
 
                 buttonEdit.setOnClickListener {
-                    listener.onClickRecipe(favouriteRecipe)
+                    listener.onClickEdit(favouriteRecipe)
+                }
+                itemView.setOnClickListener {
+                    listener.onClickRecipe(favouriteRecipe.sourceUrl)
                 }
 
             }
         }
     }
 
-
     class SavedRecipesDiffCallback : DiffUtil.ItemCallback<FavouriteRecipe>() {
-        override fun areItemsTheSame(oldItem: FavouriteRecipe, newItem: FavouriteRecipe): Boolean
-        = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: FavouriteRecipe, newItem: FavouriteRecipe): Boolean =
+            oldItem.id == newItem.id
 
         override fun areContentsTheSame(
             oldItem: FavouriteRecipe,

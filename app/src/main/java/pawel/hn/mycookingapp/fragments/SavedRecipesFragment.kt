@@ -87,10 +87,15 @@ class SavedRecipesFragment : Fragment(R.layout.fragment_saved_recipes), SavedRec
         }
     }
 
-    override fun onClickRecipe(favouriteRecipe: FavouriteRecipe) {
+    override fun onClickEdit(favouriteRecipe: FavouriteRecipe) {
         val action = SavedRecipesFragmentDirections.actionFavouritesFragmentToAddFavouriteDialog(
-            favouriteRecipe = favouriteRecipe
+            favouriteRecipe = favouriteRecipe, label = "Edit recipe"
         )
+        findNavController().navigate(action)
+    }
+
+    override fun onClickRecipe(url: String) {
+        val action = SavedRecipesFragmentDirections.actionFavouritesFragmentToDetailsFragment(url)
         findNavController().navigate(action)
     }
 }

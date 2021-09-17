@@ -4,18 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.ExperimentalPagingApi
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
 import pawel.hn.mycookingapp.databinding.RecipesBottomSheetBinding
 import pawel.hn.mycookingapp.model.MealAndDietType
 import pawel.hn.mycookingapp.utils.DEFAULT_DIET_TYPE
 import pawel.hn.mycookingapp.utils.DEFAULT_MEAL_TYPE
-import timber.log.Timber
+import pawel.hn.mycookingapp.viewmodels.RecipesViewModel
 import java.util.*
 
+@InternalCoroutinesApi
+@ExperimentalPagingApi
 @AndroidEntryPoint
 class RecipesBottomSheet : BottomSheetDialogFragment() {
 
@@ -26,6 +31,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
     private var dietTypeChip = DEFAULT_DIET_TYPE
     private var dietTypeChipId = 0
 
+    private val recipesViewModel: RecipesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,20 +41,15 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
         binding = RecipesBottomSheetBinding.inflate(inflater, container, false)
 
-        mealTypeChipId = RecipesBottomSheetArgs.fromBundle(requireArguments()).mealTypeId
-        dietTypeChipId = RecipesBottomSheetArgs.fromBundle(requireArguments()).dietTypeId
-        mealTypeChip = RecipesBottomSheetArgs.fromBundle(requireArguments()).mealType
-        dietTypeChip = RecipesBottomSheetArgs.fromBundle(requireArguments()).dietType
-
-
-        updateChip(mealTypeChipId, binding.mealTypeChipGroup)
-        updateChip(dietTypeChipId, binding.dietTypeChipGroup)
-
+            recipesViewModel.mealAndDietTypeLiveData.observe(viewLifecycleOwner) {
+                mealTypeChipId = it.mealTypeId
+                dietTypeChipId = it.dietTypeId
+                updateChip(mealTypeChipId, binding.mealTypeChipGroup)
+                updateChip(dietTypeChipId, binding.dietTypeChipGroup)
+            }
         subscribeToListeners()
-
         return binding.root
     }
-
 
     private fun subscribeToListeners() {
         binding.apply {
@@ -71,8 +72,10 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
                     mealTypeChip, mealTypeChipId, dietTypeChip, dietTypeChipId
                 )
 
+                recipesViewModel.saveRecipesTypes(mealAndDietType)
+
                 val action = RecipesBottomSheetDirections
-                    .actionRecipesBottomSheetToRecipesFragment(mealAndDietType)
+                    .actionRecipesBottomSheetToRecipesFragment()
                 findNavController().navigate(action)
 
             }
@@ -81,12 +84,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
     private fun updateChip(chipId: Int, chipGroup: ChipGroup) {
         if (chipId != 0) {
-            try {
                 chipGroup.findViewById<Chip>(chipId).isChecked = true
-            } catch (e: Exception) {
-                Timber.d(e.message)
-            }
         }
     }
-
 }

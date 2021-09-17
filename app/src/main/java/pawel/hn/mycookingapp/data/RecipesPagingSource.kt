@@ -25,13 +25,11 @@ class RecipesPagingSource(
 
         val offset = params.key ?: 0
 
-        Timber.d("load: ${queries[QUERY_MEAL]} PHN")
+        Timber.d("PHN, load: ${queries[QUERY_MEAL]}")
 
         queries[QUERY_OFFSET] = offset.toString()
         queries[QUERY_NUMBER] = params.loadSize.toString()
 
-        Timber.d("offset: : $offset PHN")
-        Timber.d("size to load: ${params.loadSize} PHN")
         return try {
             val response = recipesApi.getRecipes(queries)
 

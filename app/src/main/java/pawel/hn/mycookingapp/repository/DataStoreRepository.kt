@@ -15,9 +15,15 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
+
+
 @Singleton
 class DataStoreRepository @Inject constructor(
     @ApplicationContext private val context: Context) {
+
+    private val Context.dataStore: DataStore<Preferences>
+            by preferencesDataStore(name = PREFERENCE_NAME)
 
     private object PreferenceKeys {
 
@@ -27,9 +33,6 @@ class DataStoreRepository @Inject constructor(
         val selectedDietTypeId = intPreferencesKey(PREFERENCE_DIET_TYPE_ID)
         val backOnLine = booleanPreferencesKey(PREFERENCE_BACK_ONLINE)
     }
-
-    private val Context.dataStore: DataStore<Preferences>
-            by preferencesDataStore(name = PREFERENCE_NAME)
 
     val readMealAndDietType: Flow<MealAndDietType> = context.dataStore.data
         .catch { exception ->
@@ -46,6 +49,7 @@ class DataStoreRepository @Inject constructor(
             val selectedDietType = preferences[PreferenceKeys.selectedDietType] ?: DEFAULT_DIET_TYPE
             val selectedDietTypeId = preferences[PreferenceKeys.selectedDietTypeId] ?: 0
 
+            Timber.d("PHN, store: $selectedMealType, $selectedDietType")
             MealAndDietType(
                 selectedMealType,
                 selectedMealTypeId,
@@ -55,11 +59,14 @@ class DataStoreRepository @Inject constructor(
         }
 
     suspend fun saveMealAndDietType(mealAndDietType: MealAndDietType) {
+        Timber.d("PHN, store saved")
         context.dataStore.edit { preferences ->
             preferences[PreferenceKeys.selectedMealType] = mealAndDietType.mealType
             preferences[PreferenceKeys.selectedMealTypeId] = mealAndDietType.mealTypeId
             preferences[PreferenceKeys.selectedDietType] = mealAndDietType.dietType
             preferences[PreferenceKeys.selectedDietTypeId] = mealAndDietType.dietTypeId
+            Timber.d("PHN, edit done ${mealAndDietType.mealType}"
+            )
         }
     }
 

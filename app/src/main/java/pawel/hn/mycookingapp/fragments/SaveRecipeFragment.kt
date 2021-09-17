@@ -10,16 +10,16 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import pawel.hn.mycookingapp.R
-import pawel.hn.mycookingapp.databinding.DialogFavouriteBinding
+import pawel.hn.mycookingapp.databinding.FragmentAddFavouriteBinding
 import pawel.hn.mycookingapp.model.FavouriteRecipe
 import pawel.hn.mycookingapp.model.Recipe
 import pawel.hn.mycookingapp.viewmodels.SaveRecipeViewModel
 
 
 @AndroidEntryPoint
-class SaveRecipeFragment : Fragment(R.layout.dialog_favourite) {
+class SaveRecipeFragment : Fragment(R.layout.fragment_add_favourite) {
 
-    lateinit var binding: DialogFavouriteBinding
+    lateinit var binding: FragmentAddFavouriteBinding
     private var recipe: Recipe? = null
     private var favouriteRecipe: FavouriteRecipe? =null
     private val saveRecipeViewModel: SaveRecipeViewModel by viewModels()
@@ -29,7 +29,7 @@ class SaveRecipeFragment : Fragment(R.layout.dialog_favourite) {
         recipe = SaveRecipeFragmentArgs.fromBundle(requireArguments()).recipe
         favouriteRecipe = SaveRecipeFragmentArgs.fromBundle(requireArguments()).favouriteRecipe
 
-        binding = DialogFavouriteBinding.bind(view)
+        binding = FragmentAddFavouriteBinding.bind(view)
 
         val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav?.isVisible = false

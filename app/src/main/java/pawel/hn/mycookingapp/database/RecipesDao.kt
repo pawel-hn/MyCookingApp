@@ -11,8 +11,6 @@ import pawel.hn.mycookingapp.model.Recipe
 @Dao
 interface RecipesDao {
 
-
-
     @Insert(onConflict = OnConflictStrategy.REPLACE, entity = Recipe::class)
     suspend fun insertAllRecipes(recipes: List<Recipe>)
 
@@ -21,11 +19,5 @@ interface RecipesDao {
 
     @Query("DELETE FROM foodRecipe")
     suspend fun clearRecipes()
-
-
-
-
-
-
 
 }

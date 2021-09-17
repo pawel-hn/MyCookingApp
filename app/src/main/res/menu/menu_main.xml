@@ -6,13 +6,7 @@
 
         android:id="@+id/menu_log_out"
         android:title="@string/log_out"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_text_view"
-        android:title="@string/items"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_edit"/>
-
+        app:showAsAction="always"
+        android:icon="@drawable/ic_logout"/>
 
 </menu>

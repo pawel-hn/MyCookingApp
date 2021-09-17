@@ -25,6 +25,8 @@
     <string name="choose_criteria">Choose criteria</string>
     <string name="no_results">No results found for this query</string>
     <string name="retry">Retry</string>
+    <string name="favourite_recipes">Favourite recipes</string>
+    <string name="recipe_details">Recipe details</string>
     <string name="connection_error">Connection error</string>
 
     //Bottom sheet

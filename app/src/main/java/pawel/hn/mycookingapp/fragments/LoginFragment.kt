@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pawel.hn.mycookingapp.*
-import pawel.hn.mycookingapp.activity.LoggedInActivity
+import pawel.hn.mycookingapp.activity.MainActivity
 import pawel.hn.mycookingapp.databinding.FragmentLoginBinding
 import pawel.hn.mycookingapp.repository.LoginRegisterRepository
 import pawel.hn.mycookingapp.utils.*
@@ -27,7 +27,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         setFragmentResultListener(FRAGMENT_RESULT_KEY) { _, bundle ->
             when (bundle.getString(REGISTER_RESULT_BUNDLE_KEY)) {
@@ -51,7 +50,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 when (event) {
                     is LoginRegisterRepository.FirebaseEvents.LoginSuccess -> {
                         hideProgressBar()
-                        val intent = Intent(requireContext(), LoggedInActivity::class.java).apply {
+                        val intent = Intent(requireContext(), MainActivity::class.java).apply {
                             flags =
                                 (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         }
