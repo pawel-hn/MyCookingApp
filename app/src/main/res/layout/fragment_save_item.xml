@@ -10,7 +10,6 @@
     android:layout_marginTop="6dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:strokeColor="@color/grey"
@@ -25,7 +24,7 @@
         <ImageView
             android:id="@+id/imageView_saved"
             android:layout_width="200dp"
-            android:layout_height="0dp"
+            android:layout_height="120dp"
             android:contentDescription="@string/food_photo"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/text_view_comment"

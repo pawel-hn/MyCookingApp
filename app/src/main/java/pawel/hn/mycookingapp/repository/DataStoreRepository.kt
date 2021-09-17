@@ -16,11 +16,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-
-
 @Singleton
 class DataStoreRepository @Inject constructor(
-    @ApplicationContext private val context: Context) {
+    @ApplicationContext private val context: Context,
+) {
 
     private val Context.dataStore: DataStore<Preferences>
             by preferencesDataStore(name = PREFERENCE_NAME)
@@ -31,7 +30,6 @@ class DataStoreRepository @Inject constructor(
         val selectedMealTypeId = intPreferencesKey(PREFERENCE_MEAL_TYPE_ID)
         val selectedDietType = stringPreferencesKey(PREFERENCE_DIET_TYPE)
         val selectedDietTypeId = intPreferencesKey(PREFERENCE_DIET_TYPE_ID)
-        val backOnLine = booleanPreferencesKey(PREFERENCE_BACK_ONLINE)
     }
 
     val readMealAndDietType: Flow<MealAndDietType> = context.dataStore.data
@@ -59,33 +57,11 @@ class DataStoreRepository @Inject constructor(
         }
 
     suspend fun saveMealAndDietType(mealAndDietType: MealAndDietType) {
-        Timber.d("PHN, store saved")
         context.dataStore.edit { preferences ->
             preferences[PreferenceKeys.selectedMealType] = mealAndDietType.mealType
             preferences[PreferenceKeys.selectedMealTypeId] = mealAndDietType.mealTypeId
             preferences[PreferenceKeys.selectedDietType] = mealAndDietType.dietType
             preferences[PreferenceKeys.selectedDietTypeId] = mealAndDietType.dietTypeId
-            Timber.d("PHN, edit done ${mealAndDietType.mealType}"
-            )
         }
     }
-
-    suspend fun saveBackOnLine(backOnLine: Boolean) {
-        context.dataStore.edit { preferences ->
-            preferences[PreferenceKeys.backOnLine] = backOnLine
-        }
-    }
-
-    val readBackOnLine  = context.dataStore.data
-        .catch{ exception ->
-            if (exception is IOException) {
-                emit(emptyPreferences())
-            } else {
-                throw exception
-            }
-        }
-        .map { preferences ->
-            val backOnline = preferences[PreferenceKeys.backOnLine] ?: false
-            backOnline
-        }
 }

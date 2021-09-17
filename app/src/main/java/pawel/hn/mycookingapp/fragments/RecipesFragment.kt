@@ -9,6 +9,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
@@ -23,6 +24,10 @@ import pawel.hn.mycookingapp.adapters.RecipesAdapter
 import pawel.hn.mycookingapp.adapters.RecipesLoadStateAdapter
 import pawel.hn.mycookingapp.databinding.FragmentRecipesBinding
 import pawel.hn.mycookingapp.model.Recipe
+import pawel.hn.mycookingapp.utils.SAVE_RECIPE_KEY
+import pawel.hn.mycookingapp.utils.SAVE_RECIPE_KEY_BUNDLE
+import pawel.hn.mycookingapp.utils.SAVE_RECIPE_RESULT
+import pawel.hn.mycookingapp.utils.showToast
 import pawel.hn.mycookingapp.viewmodels.RecipesViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -66,6 +71,14 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
     }
 
     private fun subscribeToListeners() {
+
+        setFragmentResultListener(SAVE_RECIPE_KEY) { _, bundle ->
+            when(bundle.getString(SAVE_RECIPE_KEY_BUNDLE)) {
+                SAVE_RECIPE_RESULT -> showToast(requireContext(), "Recipe saved")
+            }
+
+        }
+
         binding.apply {
             buttonRecipesRetry.setOnClickListener {
                 recipesAdapter.retry()

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -14,7 +15,7 @@ import pawel.hn.mycookingapp.R
 import pawel.hn.mycookingapp.adapters.SavedRecipesAdapter
 import pawel.hn.mycookingapp.databinding.FragmentSavedRecipesBinding
 import pawel.hn.mycookingapp.model.FavouriteRecipe
-import pawel.hn.mycookingapp.utils.Resource
+import pawel.hn.mycookingapp.utils.*
 import pawel.hn.mycookingapp.viewmodels.SaveRecipeViewModel
 
 @AndroidEntryPoint
@@ -37,6 +38,13 @@ class SavedRecipesFragment : Fragment(R.layout.fragment_saved_recipes), SavedRec
             recyclerViewSaved.adapter = savedRecipesAdapter
             ItemTouchHelper(swipe).attachToRecyclerView(recyclerViewSaved)
         }
+
+        setFragmentResultListener(SAVE_RECIPE_KEY) { _, bundle ->
+            when(bundle.getString(SAVE_RECIPE_KEY_BUNDLE)) {
+                SAVE_RECIPE_RESULT -> showToast(requireContext(), "Recipe updated")
+            }
+        }
+
         readCachedRecipes()
     }
 

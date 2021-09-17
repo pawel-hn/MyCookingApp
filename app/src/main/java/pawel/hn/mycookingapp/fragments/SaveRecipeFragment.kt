@@ -2,8 +2,10 @@ package pawel.hn.mycookingapp.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -13,6 +15,10 @@ import pawel.hn.mycookingapp.R
 import pawel.hn.mycookingapp.databinding.FragmentAddFavouriteBinding
 import pawel.hn.mycookingapp.model.FavouriteRecipe
 import pawel.hn.mycookingapp.model.Recipe
+import pawel.hn.mycookingapp.utils.FRAGMENT_RESULT_KEY
+import pawel.hn.mycookingapp.utils.SAVE_RECIPE_KEY
+import pawel.hn.mycookingapp.utils.SAVE_RECIPE_KEY_BUNDLE
+import pawel.hn.mycookingapp.utils.SAVE_RECIPE_RESULT
 import pawel.hn.mycookingapp.viewmodels.SaveRecipeViewModel
 
 
@@ -69,6 +75,8 @@ class SaveRecipeFragment : Fragment(R.layout.fragment_add_favourite) {
             buttonSave.setOnClickListener {
                 val newFavouriteRecipe = createNewFavouriteRecipe(recipe, favouriteRecipe)
                 saveRecipeViewModel.saveRecipe(newFavouriteRecipe)
+
+                setFragmentResult(SAVE_RECIPE_KEY, bundleOf(SAVE_RECIPE_KEY_BUNDLE to SAVE_RECIPE_RESULT))
 
                 findNavController().popBackStack()
             }

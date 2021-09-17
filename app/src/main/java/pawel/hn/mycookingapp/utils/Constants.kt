@@ -3,7 +3,11 @@ package pawel.hn.mycookingapp.utils
 const val REGISTER_RESULT = "registerUser"
 const val RESET_RESULT = "resetPassword"
 const val FRAGMENT_RESULT_KEY = "result"
-const val REGISTER_RESULT_BUNDLE_KEY = "result"
+const val REGISTER_RESULT_BUNDLE_KEY = "resultBundle"
+
+const val SAVE_RECIPE_KEY = "recipeKey"
+const val SAVE_RECIPE_KEY_BUNDLE = "recipeBundle"
+const val SAVE_RECIPE_RESULT = "recipeResult"
 
 const val BASE_URL ="https://api.spoonacular.com/"
 
@@ -22,7 +26,6 @@ const val DEFAULT_DIET_TYPE = "Whole30"
 
 
 //firestore fields
-const val FIELD_ID = "id"
 const val FIELD_TITLE = "title"
 const val FIELD_COMMENT = "comment"
 const val FIELD_SOURCE_URL = "sourceUrl"
@@ -38,4 +41,3 @@ const val PREFERENCE_MEAL_TYPE = "mealType"
 const val PREFERENCE_MEAL_TYPE_ID = "mealTypeId"
 const val PREFERENCE_DIET_TYPE = "dietType"
 const val PREFERENCE_DIET_TYPE_ID = "dietTypeId"
-const val PREFERENCE_BACK_ONLINE = "backOnline"
