@@ -1,6 +1,5 @@
 package pawel.hn.mycookingapp.viewmodels
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pawel.hn.mycookingapp.model.FavouriteRecipe
 import pawel.hn.mycookingapp.repository.SavedRecipesRepository
-import pawel.hn.mycookingapp.utils.Resource
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,13 +15,8 @@ class SaveRecipeViewModel @Inject constructor(
     private val savedRecipesRepository: SavedRecipesRepository,
 ) : ViewModel() {
 
-    //val savedRecipesLiveData = firestoreRepository.savedRecipesLiveData
-
     val cachedRecipes = savedRecipesRepository.getSavedRecipesFromLocal().asLiveData()
     val recipesResponse = savedRecipesRepository.savedRecipesLiveData
-
-
-    // fun getSavedRecipes() = firestoreRepository.getRecipes()
 
     fun getRecipesFromFireStore() {
         savedRecipesRepository.getRecipesFromFirestore()
@@ -40,7 +33,4 @@ class SaveRecipeViewModel @Inject constructor(
             savedRecipesRepository.deleteSavedRecipe(favouriteRecipe)
         }
     }
-
-
-
 }

@@ -1,16 +1,16 @@
 plugins {
-    id ("com.android.application")
-    id ("kotlin-android")
-    id ("kotlin-kapt")
-    id ("dagger.hilt.android.plugin")
-    id ("com.google.gms.google-services")
-    id ("androidx.navigation.safeargs.kotlin")
-    id ("kotlin-parcelize")
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-parcelize")
 }
 
 android {
     compileSdkVersion(AppConfig.compileSdkVersion)
-    buildToolsVersion( "30.0.3")
+    buildToolsVersion("30.0.3")
 
     defaultConfig {
         applicationId = "pawel.hn.mycookingapp"
@@ -50,10 +50,10 @@ dependencies {
     implementation(Dependencies.appCompat)
     implementation(Dependencies.googleMaterial)
     implementation(Dependencies.constraintLayout)
-    implementation (Dependencies.annotation)
+    implementation(Dependencies.annotation)
     implementation(Dependencies.liveData)
-    implementation (Dependencies.fragmentKtx)
-    implementation (Dependencies.viewModelKtx)
+    implementation(Dependencies.fragmentKtx)
+    implementation(Dependencies.viewModelKtx)
     testImplementation(Dependencies.junit)
     testImplementation(Dependencies.junitTest)
     testImplementation(Dependencies.espressoCore)
@@ -67,11 +67,11 @@ dependencies {
     implementation(Dependencies.navigationUiKtx)
     implementation(Dependencies.glideCore)
     kapt(Dependencies.glideKapt)
-    implementation (Dependencies.firebaseAuth)
+    implementation(Dependencies.firebaseAuth)
     implementation(Dependencies.fireStore)
     implementation(Dependencies.timber)
     implementation(Dependencies.dataStore)
-    implementation ("com.google.code.gson:gson:2.8.6")
+    implementation(Dependencies.gson)
     implementation(Dependencies.roomCore)
     kapt(Dependencies.roomKapt)
     implementation(Dependencies.roomKtx)

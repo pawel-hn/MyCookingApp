@@ -2,7 +2,7 @@ package pawel.hn.mycookingapp.utils
 
 const val REGISTER_RESULT = "registerUser"
 const val RESET_RESULT = "resetPassword"
-const val FRAGMENT_RESULT_KEY = "result"
+const val LOGIN_FRAGMENT_RESULT_KEY = "result"
 const val REGISTER_RESULT_BUNDLE_KEY = "resultBundle"
 
 const val SAVE_RECIPE_KEY = "recipeKey"
@@ -12,7 +12,6 @@ const val SAVE_RECIPE_RESULT = "recipeResult"
 const val BASE_URL ="https://api.spoonacular.com/"
 
 //API query
-const val QUERY_SEARCH = "query"
 const val QUERY_NUMBER = "number"
 const val QUERY_API_KEY = "apiKey"
 const val QUERY_MEAL = "type"

@@ -27,6 +27,7 @@ object DependenciesVersions {
     const val playServicesVersion = "17.6.0"
     const val timberVersion = "5.0.1"
     const val dataStoreVersion = "1.0.0"
+    const val gsonVersion = "2.8.6"
 
 
 

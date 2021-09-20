@@ -28,7 +28,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setFragmentResultListener(FRAGMENT_RESULT_KEY) { _, bundle ->
+        setFragmentResultListener(LOGIN_FRAGMENT_RESULT_KEY) { _, bundle ->
             when (bundle.getString(REGISTER_RESULT_BUNDLE_KEY)) {
                 REGISTER_RESULT -> showToast(requireContext(), "Verify e-mail to login")
                 RESET_RESULT -> showToast(requireContext(), "Mail sent, check inbox.")
@@ -65,7 +65,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     }
                     else -> { }
                 }
-
             }
         }
     }
@@ -96,7 +95,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-
     private fun showProgressBar() {
         binding.progressBar.isVisible = true
     }
@@ -104,6 +102,4 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun hideProgressBar() {
         binding.progressBar.isVisible = false
     }
-
-
 }

@@ -331,3 +331,5 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/android,androidstudio,kotlin,gradle,java,macos,windows,linux
+!/src/main/java/pawel/hn/mycookingapp/data/RecipesMediator.kt
+!/src/main/java/pawel/hn/mycookingapp/utils/ApiKey.kt

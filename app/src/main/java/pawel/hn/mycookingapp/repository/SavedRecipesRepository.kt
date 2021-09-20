@@ -78,7 +78,7 @@ class SavedRecipesRepository @Inject constructor(private val savedRecipesDao: Sa
             }
     }
 
-     fun getSavedRecipesList() = savedRecipesDao.getSavedRecipesList()
+    fun getSavedRecipesList() = savedRecipesDao.getSavedRecipesList()
 
     suspend fun deleteSavedRecipe(favouriteRecipe: FavouriteRecipe) {
         collectionRef.document(favouriteRecipe.id.toString()).delete()
@@ -96,7 +96,7 @@ class SavedRecipesRepository @Inject constructor(private val savedRecipesDao: Sa
         savedRecipesDao.saveRecipe(favouriteRecipe)
     }
 
-    fun getSavedRecipesFromLocal(): Flow<List<FavouriteRecipe>> = savedRecipesDao.getSavedRecipesFlow()
-
+    fun getSavedRecipesFromLocal(): Flow<List<FavouriteRecipe>> =
+        savedRecipesDao.getSavedRecipesFlow()
 
 }

@@ -15,7 +15,6 @@ import pawel.hn.mycookingapp.R
 import pawel.hn.mycookingapp.databinding.FragmentAddFavouriteBinding
 import pawel.hn.mycookingapp.model.FavouriteRecipe
 import pawel.hn.mycookingapp.model.Recipe
-import pawel.hn.mycookingapp.utils.FRAGMENT_RESULT_KEY
 import pawel.hn.mycookingapp.utils.SAVE_RECIPE_KEY
 import pawel.hn.mycookingapp.utils.SAVE_RECIPE_KEY_BUNDLE
 import pawel.hn.mycookingapp.utils.SAVE_RECIPE_RESULT
@@ -116,8 +115,6 @@ class SaveRecipeFragment : Fragment(R.layout.fragment_add_favourite) {
             binding.ratingBar.rating.toString()
         )
     }
-
-
 }
 
 

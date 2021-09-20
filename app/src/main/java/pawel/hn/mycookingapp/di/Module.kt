@@ -21,7 +21,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object Module {
 
-
     @Provides
     @Singleton
     fun providesRetrofit(): Retrofit = Retrofit.Builder()
@@ -37,7 +36,6 @@ object Module {
     @Singleton
     fun providesFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
-
     @Provides
     @Singleton
     fun providesDatabase(app: Application): RecipesDatabase = Room.databaseBuilder(
@@ -47,7 +45,6 @@ object Module {
     )
         .allowMainThreadQueries()
         .build()
-
 
     @Provides
     @Singleton

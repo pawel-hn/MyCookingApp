@@ -4,10 +4,8 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import pawel.hn.mycookingapp.model.FavouriteRecipe
 
-
 @Dao
 interface SavedRecipesDao {
-
 
     @Query("SELECT * FROM savedRecipes")
     fun getSavedRecipesFlow(): Flow<List<FavouriteRecipe>>

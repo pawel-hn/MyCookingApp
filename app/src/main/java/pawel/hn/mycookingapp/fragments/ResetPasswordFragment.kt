@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import pawel.hn.mycookingapp.*
 import pawel.hn.mycookingapp.databinding.FragmentResetPasswordBinding
 import pawel.hn.mycookingapp.repository.LoginRegisterRepository
-import pawel.hn.mycookingapp.utils.FRAGMENT_RESULT_KEY
+import pawel.hn.mycookingapp.utils.LOGIN_FRAGMENT_RESULT_KEY
 import pawel.hn.mycookingapp.utils.REGISTER_RESULT_BUNDLE_KEY
 import pawel.hn.mycookingapp.utils.RESET_RESULT
 import pawel.hn.mycookingapp.utils.showToast
@@ -43,7 +43,7 @@ class ResetPasswordFragment : Fragment(R.layout.fragment_reset_password) {
                 if (event is LoginRegisterRepository.FirebaseEvents.ResetPasswordSuccess) {
                     hideProgressBar()
                     setFragmentResult(
-                        FRAGMENT_RESULT_KEY,
+                        LOGIN_FRAGMENT_RESULT_KEY,
                         bundleOf(REGISTER_RESULT_BUNDLE_KEY to RESET_RESULT))
                     findNavController().popBackStack()
                 }

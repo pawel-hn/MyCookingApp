@@ -19,7 +19,6 @@ class RecipesRepository @Inject constructor(
     private val appDatabase: RecipesDatabase,
 ) {
 
-
     fun getRecipesFromNetwork(queries: HashMap<String, String>) =
         Pager(
             config = PagingConfig(
@@ -43,5 +42,4 @@ class RecipesRepository @Inject constructor(
             pagingSourceFactory = { appDatabase.recipesDao().getRecipesPagingSource() },
         ).flow
     }
-
 }

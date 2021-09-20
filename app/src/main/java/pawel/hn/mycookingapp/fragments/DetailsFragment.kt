@@ -11,7 +11,6 @@ import pawel.hn.mycookingapp.databinding.FragmentDetailsBinding
 
 class DetailsFragment : Fragment(R.layout.fragment_details){
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val url = DetailsFragmentArgs.fromBundle(requireArguments()).sourceUrl
         val binding = FragmentDetailsBinding.bind(view)
@@ -25,5 +24,4 @@ class DetailsFragment : Fragment(R.layout.fragment_details){
 
         }
     }
-
 }

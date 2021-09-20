@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 class LoginRegisterRepository @Inject constructor() {
 
     @Inject
@@ -56,7 +55,6 @@ class LoginRegisterRepository @Inject constructor() {
                 }
             }
     }
-
 
     fun logInUser(email: String, password: String) {
         connectingWithFireBase()

@@ -9,7 +9,6 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import pawel.hn.mycookingapp.model.FavouriteRecipe
 import pawel.hn.mycookingapp.model.MealAndDietType
@@ -17,7 +16,6 @@ import pawel.hn.mycookingapp.repository.DataStoreRepository
 import pawel.hn.mycookingapp.repository.RecipesRepository
 import pawel.hn.mycookingapp.repository.SavedRecipesRepository
 import pawel.hn.mycookingapp.utils.*
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.collections.set
 
@@ -58,7 +56,6 @@ class RecipesViewModel @Inject constructor(
     fun saveRecipesTypes(
         mealAndDietType: MealAndDietType,
     ) {
-        Timber.d("PHN, save, ${mealAndDietType.mealType}, ${mealAndDietType.dietType}")
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveMealAndDietType(mealAndDietType)
         }
@@ -73,5 +70,4 @@ class RecipesViewModel @Inject constructor(
             savedRecipesRepository.logOut()
         }
     }
-
 }

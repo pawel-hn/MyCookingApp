@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import pawel.hn.mycookingapp.*
 import pawel.hn.mycookingapp.databinding.FragmentRegistrationBinding
 import pawel.hn.mycookingapp.repository.LoginRegisterRepository
-import pawel.hn.mycookingapp.utils.FRAGMENT_RESULT_KEY
+import pawel.hn.mycookingapp.utils.LOGIN_FRAGMENT_RESULT_KEY
 import pawel.hn.mycookingapp.utils.REGISTER_RESULT
 import pawel.hn.mycookingapp.utils.REGISTER_RESULT_BUNDLE_KEY
 import pawel.hn.mycookingapp.utils.showToast
@@ -38,7 +38,6 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         subscribeToEvent()
     }
 
-
     private fun subscribeToListeners() {
         binding.apply {
 
@@ -53,7 +52,6 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
                 }
 
                 viewModel.registerUser(email, password)
-
             }
 
             textViewLogin.setOnClickListener {
@@ -71,7 +69,7 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
                 } else if (event is LoginRegisterRepository.FirebaseEvents.VerificationMailSend) {
                     hideProgressBar()
                     setFragmentResult(
-                        FRAGMENT_RESULT_KEY,
+                        LOGIN_FRAGMENT_RESULT_KEY,
                         bundleOf(REGISTER_RESULT_BUNDLE_KEY to REGISTER_RESULT))
                     findNavController().popBackStack()
                 } else if (event is LoginRegisterRepository.FirebaseEvents.Connecting) {

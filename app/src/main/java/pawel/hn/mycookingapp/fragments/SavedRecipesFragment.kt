@@ -25,7 +25,6 @@ class SavedRecipesFragment : Fragment(R.layout.fragment_saved_recipes), SavedRec
     lateinit var binding: FragmentSavedRecipesBinding
     private val savedRecipesViewModel: SaveRecipeViewModel by viewModels()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)

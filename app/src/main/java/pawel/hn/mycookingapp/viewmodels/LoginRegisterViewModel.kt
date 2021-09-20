@@ -9,11 +9,11 @@ import pawel.hn.mycookingapp.repository.LoginRegisterRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginRegisterViewModel @Inject constructor(private val repository: LoginRegisterRepository) : ViewModel() {
+class LoginRegisterViewModel @Inject constructor(private val repository: LoginRegisterRepository) :
+    ViewModel() {
 
     val fireBaseFlow = repository.firebaseEventsFlow
     var toastMessage = ""
-
 
     fun registerUser(email: String, password: String) = viewModelScope.launch {
         repository.registerUser(email, password)
@@ -26,7 +26,6 @@ class LoginRegisterViewModel @Inject constructor(private val repository: LoginRe
     fun resetPassword(email: String) = viewModelScope.launch {
         repository.resetPassword(email)
     }
-
 
     fun invalidDataInput(email: String, repeatPassword: String, password: String): Boolean {
         return when {
@@ -49,5 +48,4 @@ class LoginRegisterViewModel @Inject constructor(private val repository: LoginRe
             else -> false
         }
     }
-
 }

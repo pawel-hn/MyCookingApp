@@ -29,7 +29,6 @@ import pawel.hn.mycookingapp.utils.SAVE_RECIPE_KEY_BUNDLE
 import pawel.hn.mycookingapp.utils.SAVE_RECIPE_RESULT
 import pawel.hn.mycookingapp.utils.showToast
 import pawel.hn.mycookingapp.viewmodels.RecipesViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 @ExperimentalPagingApi
@@ -43,7 +42,6 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
     private val recipesViewModel: RecipesViewModel by viewModels()
     private lateinit var binding: FragmentRecipesBinding
     private lateinit var recipesAdapter: RecipesAdapter
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,7 +63,6 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
 
     private fun subscribeToObservers() {
             recipesViewModel.recipesObservable.observe(viewLifecycleOwner) {
-                Timber.d("PHN, recipesToObserve")
                 recipesAdapter.submitData(viewLifecycleOwner.lifecycle, it)
             }
     }
@@ -74,9 +71,8 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
 
         setFragmentResultListener(SAVE_RECIPE_KEY) { _, bundle ->
             when(bundle.getString(SAVE_RECIPE_KEY_BUNDLE)) {
-                SAVE_RECIPE_RESULT -> showToast(requireContext(), "Recipe saved")
+                SAVE_RECIPE_RESULT -> showToast(requireContext(), "Recipe added to favourites")
             }
-
         }
 
         binding.apply {
