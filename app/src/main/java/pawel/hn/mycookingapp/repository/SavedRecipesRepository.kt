@@ -85,7 +85,10 @@ class SavedRecipesRepository @Inject constructor(private val savedRecipesDao: Sa
         savedRecipesDao.deleteRecipe(favouriteRecipe)
     }
 
-    fun logOut() = firebaseAuth.signOut()
+    suspend fun logOut() {
+        savedRecipesDao.deleteAllSaveRecipes()
+        firebaseAuth.signOut()
+    }
 
     private suspend fun offlineCacheRecipes(recipes: List<FavouriteRecipe>) {
         savedRecipesDao.saveAllRecipes(recipes)
