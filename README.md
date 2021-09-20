@@ -13,7 +13,7 @@ AnAndroid Architecture Components, MVVM, Data Binding, Hilt, Room, Retrofit, Pag
 www.spoonacular.com <br>
 
 Functionality:<br>
-<img src="https://s9.gifyu.com/images/mycookingappresize.gif"/><br>
+<img src="https://s9.gifyu.com/images/mycookingappresizee8f6f8761aa58aa2.gif"/><br>
 
 Screenshoots:<br>
 ![Screenshoto](https://github.com/pawel-hn/MyCookingApp/blob/code_clean_up/login.png) ![Screenshoto](https://github.com/pawel-hn/MyCookingApp/blob/code_clean_up/register.png) 
