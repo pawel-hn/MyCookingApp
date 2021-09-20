@@ -18,11 +18,9 @@ class RecipesLoadStateAdapter (private val retry:() -> Unit)
         return LoadStateViewHolder((binding))
     }
 
-
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
         holder.bind(loadState)
     }
-
 
     inner class LoadStateViewHolder(private val binding: LoaderStateRecipesBinding)
         : RecyclerView.ViewHolder(binding.root) {
