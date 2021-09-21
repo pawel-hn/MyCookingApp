@@ -5,9 +5,9 @@ Each recipe can be saved with comment and rating. <br>
 In order to createn an account user has to provide e-mail and verfied it. Backend is provided by Firebase Authentication.
 Saved recipes are stored in Firestore cloud.
 
-### Libraries:
+### Buiild with:
 
-AnAndroid Architecture Components, MVVM, Data Binding, Hilt, Room, Retrofit, Paging3, Firebase (Authentication and Firestore) and others.<br>
+Android Architecture Components, MVVM, Data Binding, Hilt, Room, Retrofit, Paging3, Firebase (Authentication and Firestore) and others.<br>
 
 ### API source:
 www.spoonacular.com <br>
