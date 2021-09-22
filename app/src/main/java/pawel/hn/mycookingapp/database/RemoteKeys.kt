@@ -5,4 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "remoteKeys")
 data class RemoteKeys
-    (@PrimaryKey val query: String, val nextKey: Int)
+    (
+    @PrimaryKey
+    val mealAndDiet: String,
+    val nextKey: Int?
+    )

@@ -11,10 +11,14 @@ const val SAVE_RECIPE_RESULT = "recipeResult"
 
 const val BASE_URL ="https://api.spoonacular.com/"
 
+const val RECIPES_LOAD = 20
+
 //API query
 const val QUERY_NUMBER = "number"
 const val QUERY_API_KEY = "apiKey"
 const val QUERY_MEAL = "type"
+const val QUERY_SORT = "sort"
+const val QUERY_SORT_VALUE = "meta-score"
 const val QUERY_DIET = "diet"
 const val QUERY_ADD_RECIPE_INFORMATION = "addRecipeInformation"
 const val QUERY_FILL_INGREDIENTS = "fillIngredients"

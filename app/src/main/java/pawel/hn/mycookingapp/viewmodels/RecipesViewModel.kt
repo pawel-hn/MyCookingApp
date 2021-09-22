@@ -33,6 +33,7 @@ class RecipesViewModel @Inject constructor(
     val recipesObservable = Transformations.switchMap(mealAndDietTypeLiveData) {
         val queries = HashMap<String, String>()
         queries[QUERY_API_KEY] = API_KEY
+        queries[QUERY_SORT] = QUERY_SORT_VALUE
         queries[QUERY_ADD_RECIPE_INFORMATION] = "true"
         queries[QUERY_FILL_INGREDIENTS] = "true"
         queries[QUERY_MEAL] = it.mealType

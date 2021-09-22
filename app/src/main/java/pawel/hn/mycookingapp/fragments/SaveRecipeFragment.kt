@@ -72,11 +72,14 @@ class SaveRecipeFragment : Fragment(R.layout.fragment_add_favourite) {
             }
 
             buttonSave.setOnClickListener {
-                val newFavouriteRecipe = createNewFavouriteRecipe(recipe, favouriteRecipe)
+                val newFavouriteRecipe = if(recipe != null) {
+                    createFavouriteRecipe(recipe!!)
+                } else {
+                    editFavouriteRecipe(favouriteRecipe!!)
+                }
                 saveRecipeViewModel.saveRecipe(newFavouriteRecipe)
 
                 setFragmentResult(SAVE_RECIPE_KEY, bundleOf(SAVE_RECIPE_KEY_BUNDLE to SAVE_RECIPE_RESULT))
-
                 findNavController().popBackStack()
             }
 
@@ -86,12 +89,8 @@ class SaveRecipeFragment : Fragment(R.layout.fragment_add_favourite) {
         }
     }
 
-    private fun createNewFavouriteRecipe(
-        recipe: Recipe?,
-        favouriteRecipe: FavouriteRecipe?,
-    ): FavouriteRecipe = if (recipe != null) {
-
-        FavouriteRecipe(
+    private fun createFavouriteRecipe(
+        recipe: Recipe): FavouriteRecipe = FavouriteRecipe(
             recipe.id,
             recipe.title,
             recipe.image,
@@ -102,19 +101,19 @@ class SaveRecipeFragment : Fragment(R.layout.fragment_add_favourite) {
             binding.switchCooked.isChecked,
             binding.ratingBar.rating.toString()
         )
-    } else {
-        FavouriteRecipe(
-            favouriteRecipe!!.id,
-            favouriteRecipe.title,
-            favouriteRecipe.image,
-            favouriteRecipe.readyInMinutes,
-            favouriteRecipe.sourceUrl,
-            favouriteRecipe.vegetarian,
-            binding.editTextComments.text.toString(),
-            binding.switchCooked.isChecked,
-            binding.ratingBar.rating.toString()
-        )
-    }
+
+    fun editFavouriteRecipe(favouriteRecipe: FavouriteRecipe) = FavouriteRecipe(
+        favouriteRecipe!!.id,
+        favouriteRecipe.title,
+        favouriteRecipe.image,
+        favouriteRecipe.readyInMinutes,
+        favouriteRecipe.sourceUrl,
+        favouriteRecipe.vegetarian,
+        binding.editTextComments.text.toString(),
+        binding.switchCooked.isChecked,
+        binding.ratingBar.rating.toString()
+    )
+
 }
 
 

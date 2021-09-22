@@ -13,7 +13,6 @@ import pawel.hn.mycookingapp.network.RecipesApi
 import pawel.hn.mycookingapp.utils.*
 import java.io.IOException
 
-const val ITEMS_LOAD = 20
 
 @ExperimentalPagingApi
 class RecipesMediator(
@@ -22,34 +21,45 @@ class RecipesMediator(
     private val queries: HashMap<String, String>,
 ) : RemoteMediator<Int, Recipe>() {
 
+
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Recipe>): MediatorResult {
 
         val queryId = queries[QUERY_DIET] + queries[QUERY_MEAL]
 
-        val page = when (loadType) {
+        val loadKey = when (loadType) {
             LoadType.REFRESH -> 0
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
-            LoadType.APPEND -> appDatabase.remoteKeysDao().remoteKeysId(queryId).nextKey
+            LoadType.APPEND -> {
+                val key = appDatabase.remoteKeysDao().remoteKeysId(queryId)
+                if (key.nextKey == null) {
+                    return MediatorResult.Success(endOfPaginationReached = true)
+                }
+
+                key.nextKey
+            }
         }
 
-        queries[QUERY_OFFSET] = page.toString()
-        queries[QUERY_NUMBER] = "20"
+        queries[QUERY_OFFSET] = loadKey.toString()
+        queries[QUERY_NUMBER] = when (loadType) {
+            LoadType.REFRESH -> state.config.initialLoadSize.toString()
+            else -> state.config.pageSize.toString()
+        }
 
         try {
             val response = recipesApi.getRecipes(queries)
 
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    appDatabase.remoteKeysDao().clearRemoteKeys()
                     appDatabase.recipesDao().clearRecipes()
+                    appDatabase.remoteKeysDao().clearRemoteKeys()
+
                 }
 
-                val nextKey = page + 20
-                val keys = response.recipes.map {
+                val nextKey = loadKey + 20
 
-                    RemoteKeys(query = queryId, nextKey = nextKey)
-                }
-                appDatabase.remoteKeysDao().insertAll(keys)
+                appDatabase.remoteKeysDao().insertKey(RemoteKeys(
+                    queryId, nextKey
+                ))
                 appDatabase.recipesDao().insertAllRecipes(response.recipes)
             }
             return MediatorResult.Success(endOfPaginationReached = response.recipes.isEmpty())

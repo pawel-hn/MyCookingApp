@@ -14,7 +14,7 @@ interface RecipesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE, entity = Recipe::class)
     suspend fun insertAllRecipes(recipes: List<Recipe>)
 
-    @Query("SELECT * FROM foodRecipe")
+    @Query("SELECT * FROM foodRecipe ORDER BY id ASC")
     fun getRecipesPagingSource(): PagingSource<Int, Recipe>
 
     @Query("DELETE FROM foodRecipe")

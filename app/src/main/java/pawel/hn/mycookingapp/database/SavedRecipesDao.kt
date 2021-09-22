@@ -7,7 +7,7 @@ import pawel.hn.mycookingapp.model.FavouriteRecipe
 @Dao
 interface SavedRecipesDao {
 
-    @Query("SELECT * FROM savedRecipes")
+    @Query("SELECT * FROM savedRecipes ORDER BY title ASC")
     fun getSavedRecipesFlow(): Flow<List<FavouriteRecipe>>
 
     @Query("SELECT * FROM savedRecipes")

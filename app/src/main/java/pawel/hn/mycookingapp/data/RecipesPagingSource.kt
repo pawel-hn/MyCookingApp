@@ -16,8 +16,8 @@ class RecipesPagingSource(
 
     override fun getRefreshKey(state: PagingState<Int, Recipe>): Int? {
         return state.anchorPosition?.let {
-            state.closestPageToPosition(it)?.prevKey?.plus(20)
-                ?: state.closestPageToPosition(it)?.nextKey?.minus(20)
+            state.closestPageToPosition(it)?.prevKey?.plus(RECIPES_LOAD)
+                ?: state.closestPageToPosition(it)?.nextKey?.minus(RECIPES_LOAD)
         }
     }
 
@@ -37,8 +37,8 @@ class RecipesPagingSource(
 
             LoadResult.Page(
                 data = recipes,
-                prevKey = if (offset == 0) null else offset - 20,
-                nextKey = if (recipes.isEmpty()) null else offset + 20
+                prevKey = if (offset == 0) null else offset - RECIPES_LOAD,
+                nextKey = if (recipes.isEmpty()) null else offset + RECIPES_LOAD
             )
         } catch (exception: IOException) {
             LoadResult.Error(exception)

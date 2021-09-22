@@ -66,6 +66,7 @@ class SavedRecipesRepository @Inject constructor(private val savedRecipesDao: Sa
                     )
                     )
                 }
+                recipes.sortBy { it.title.first() }
                 savedRecipesLiveData.value = Resource.Success(recipes)
 
                 coroutine.launch {
