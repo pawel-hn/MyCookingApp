@@ -6,7 +6,6 @@ import pawel.hn.mycookingapp.model.Recipe
 import pawel.hn.mycookingapp.network.RecipesApi
 import pawel.hn.mycookingapp.utils.*
 import retrofit2.HttpException
-import timber.log.Timber
 import java.io.IOException
 
 class RecipesPagingSource(
@@ -22,10 +21,7 @@ class RecipesPagingSource(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Recipe> {
-
         val offset = params.key ?: 0
-
-        Timber.d("PHN, load: ${queries[QUERY_MEAL]}")
 
         queries[QUERY_OFFSET] = offset.toString()
         queries[QUERY_NUMBER] = params.loadSize.toString()

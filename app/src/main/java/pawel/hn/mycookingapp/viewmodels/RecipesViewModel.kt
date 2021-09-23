@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pawel.hn.mycookingapp.model.FavouriteRecipe
 import pawel.hn.mycookingapp.model.MealAndDietType
 import pawel.hn.mycookingapp.repository.DataStoreRepository
@@ -29,6 +30,7 @@ class RecipesViewModel @Inject constructor(
 ) : ViewModel() {
 
     val mealAndDietTypeLiveData = dataStoreRepository.readMealAndDietType.asLiveData()
+    var savedRecipes = listOf<FavouriteRecipe>()
 
     val recipesObservable = Transformations.switchMap(mealAndDietTypeLiveData) {
         val queries = HashMap<String, String>()
@@ -42,15 +44,17 @@ class RecipesViewModel @Inject constructor(
         recipesRepository.getRecipesFromNetwork(queries).cachedIn(viewModelScope)
     }
 
-    var list = emptyList<FavouriteRecipe>()
 
-    fun getSavedRecipes() {
-        list = savedRecipesRepository.getSavedRecipesList()
-        if (list.isEmpty()) {
-            getSavedRecipesFromFirestore()
-            list = savedRecipesRepository.getSavedRecipesList()
+    suspend fun getSavedRecipesList() {
+        withContext(viewModelScope.coroutineContext) {
+            savedRecipes = savedRecipesRepository.getSavedRecipesList()
+            if (savedRecipes.isEmpty()) {
+                getSavedRecipesFromFirestore()
+                savedRecipes = savedRecipesRepository.getSavedRecipesList()
+            }
         }
     }
+
 
     fun saveRecipesTypes(
         mealAndDietType: MealAndDietType,
@@ -61,7 +65,7 @@ class RecipesViewModel @Inject constructor(
     }
 
     private fun getSavedRecipesFromFirestore() {
-        savedRecipesRepository.getRecipesFromFirestore()
+        savedRecipesRepository.requestFavouriteRecipesFromFirestore()
     }
 
     fun logOut() {

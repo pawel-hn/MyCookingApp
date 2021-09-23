@@ -1,12 +1,12 @@
 package pawel.hn.mycookingapp.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import pawel.hn.mycookingapp.database.SavedRecipesDao
 import pawel.hn.mycookingapp.model.FavouriteRecipe
@@ -45,7 +45,7 @@ class SavedRecipesRepository @Inject constructor(private val savedRecipesDao: Sa
             }
     }
 
-    fun getRecipesFromFirestore() {
+    fun requestFavouriteRecipesFromFirestore() {
         savedRecipesLiveData.value = Resource.Loading()
         val recipes = mutableListOf<FavouriteRecipe>()
         collectionRef.get()
@@ -79,7 +79,7 @@ class SavedRecipesRepository @Inject constructor(private val savedRecipesDao: Sa
             }
     }
 
-    fun getSavedRecipesList() = savedRecipesDao.getSavedRecipesList()
+    suspend fun getSavedRecipesList() = savedRecipesDao.getSavedRecipesList()
 
     suspend fun deleteSavedRecipe(favouriteRecipe: FavouriteRecipe) {
         collectionRef.document(favouriteRecipe.id.toString()).delete()
@@ -100,7 +100,7 @@ class SavedRecipesRepository @Inject constructor(private val savedRecipesDao: Sa
         savedRecipesDao.saveRecipe(favouriteRecipe)
     }
 
-    fun getSavedRecipesFromLocal(): Flow<List<FavouriteRecipe>> =
-        savedRecipesDao.getSavedRecipesFlow()
+    fun getSavedRecipesFromLocal(): LiveData<List<FavouriteRecipe>> =
+        savedRecipesDao.getSavedRecipes()
 
 }

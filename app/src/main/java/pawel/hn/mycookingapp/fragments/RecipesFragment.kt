@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
@@ -18,11 +19,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import pawel.hn.mycookingapp.R
 import pawel.hn.mycookingapp.activity.LoginActivity
 import pawel.hn.mycookingapp.adapters.RecipesAdapter
 import pawel.hn.mycookingapp.adapters.RecipesLoadStateAdapter
 import pawel.hn.mycookingapp.databinding.FragmentRecipesBinding
+import pawel.hn.mycookingapp.model.FavouriteRecipe
 import pawel.hn.mycookingapp.model.Recipe
 import pawel.hn.mycookingapp.utils.SAVE_RECIPE_KEY
 import pawel.hn.mycookingapp.utils.SAVE_RECIPE_KEY_BUNDLE
@@ -42,6 +46,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
     private val recipesViewModel: RecipesViewModel by viewModels()
     private lateinit var binding: FragmentRecipesBinding
     private lateinit var recipesAdapter: RecipesAdapter
+    private var savedRecipes = listOf<FavouriteRecipe>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,22 +60,21 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
         bottomNav?.isVisible = true
 
         setAdapter()
-        subscribeToObservers()
-        subscribeToListeners()
-        setUiStates()
+
+
         setHasOptionsMenu(true)
     }
 
     private fun subscribeToObservers() {
-            recipesViewModel.recipesObservable.observe(viewLifecycleOwner) {
-                recipesAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-            }
+        recipesViewModel.recipesObservable.observe(viewLifecycleOwner) {
+            recipesAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
     }
 
     private fun subscribeToListeners() {
 
         setFragmentResultListener(SAVE_RECIPE_KEY) { _, bundle ->
-            when(bundle.getString(SAVE_RECIPE_KEY_BUNDLE)) {
+            when (bundle.getString(SAVE_RECIPE_KEY_BUNDLE)) {
                 SAVE_RECIPE_RESULT -> showToast(requireContext(), "Recipe added to favourites")
             }
         }
@@ -89,14 +93,23 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
     }
 
     private fun setAdapter() {
-        recipesViewModel.getSavedRecipes()
 
-        recipesAdapter = RecipesAdapter(this, recipesViewModel.list)
-        val loadStateAdapter = RecipesLoadStateAdapter { recipesAdapter.retry() }
+        lifecycleScope.launch {
+            recipesViewModel.getSavedRecipesList()
 
-        binding.apply {
-            recipesRecyclerView.adapter = recipesAdapter.withLoadStateFooter(loadStateAdapter)
+            recipesAdapter = RecipesAdapter(
+                this@RecipesFragment,
+                recipesViewModel.savedRecipes
+            )
 
+            val loadStateAdapter = RecipesLoadStateAdapter { recipesAdapter.retry() }
+
+            binding.apply {
+                recipesRecyclerView.adapter = recipesAdapter.withLoadStateFooter(loadStateAdapter)
+            }
+            setUiStates()
+            subscribeToObservers()
+            subscribeToListeners()
         }
     }
 
@@ -106,9 +119,9 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
             binding.apply {
 
                 recipesProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                recipesRecyclerView.isVisible =loadState.source.refresh is LoadState.NotLoading
-                buttonRecipesRetry.isVisible =loadState.source.refresh is LoadState.Error
-                textViewRecipesError.isVisible =loadState.source.refresh is LoadState.Error
+                recipesRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+                buttonRecipesRetry.isVisible = loadState.source.refresh is LoadState.Error
+                textViewRecipesError.isVisible = loadState.source.refresh is LoadState.Error
 
                 if (loadState.source.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
@@ -158,7 +171,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), RecipesAdapter.Reci
                 startActivity(intent)
                 activity?.finish()
             }
-            .setNegativeButton("No"){ dialog, _ ->
+            .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()
             }.show()
     }

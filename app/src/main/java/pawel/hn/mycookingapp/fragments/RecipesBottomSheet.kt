@@ -41,12 +41,12 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
         binding = RecipesBottomSheetBinding.inflate(inflater, container, false)
 
-            recipesViewModel.mealAndDietTypeLiveData.observe(viewLifecycleOwner) {
-                mealTypeChipId = it.mealTypeId
-                dietTypeChipId = it.dietTypeId
-                updateChip(mealTypeChipId, binding.mealTypeChipGroup)
-                updateChip(dietTypeChipId, binding.dietTypeChipGroup)
-            }
+        recipesViewModel.mealAndDietTypeLiveData.observe(viewLifecycleOwner) {
+            mealTypeChipId = it.mealTypeId
+            dietTypeChipId = it.dietTypeId
+            updateChip(mealTypeChipId, binding.mealTypeChipGroup)
+            updateChip(dietTypeChipId, binding.dietTypeChipGroup)
+        }
         subscribeToListeners()
         return binding.root
     }
@@ -84,7 +84,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
     private fun updateChip(chipId: Int, chipGroup: ChipGroup) {
         if (chipId != 0) {
-                chipGroup.findViewById<Chip>(chipId).isChecked = true
+            chipGroup.findViewById<Chip>(chipId).isChecked = true
         }
     }
 }

@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import pawel.hn.mycookingapp.model.MealAndDietType
 import pawel.hn.mycookingapp.utils.*
-import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -47,7 +46,6 @@ class DataStoreRepository @Inject constructor(
             val selectedDietType = preferences[PreferenceKeys.selectedDietType] ?: DEFAULT_DIET_TYPE
             val selectedDietTypeId = preferences[PreferenceKeys.selectedDietTypeId] ?: 0
 
-            Timber.d("PHN, store: $selectedMealType, $selectedDietType")
             MealAndDietType(
                 selectedMealType,
                 selectedMealTypeId,

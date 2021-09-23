@@ -42,9 +42,7 @@ object Module {
         app,
         RecipesDatabase::class.java,
         "recipesDatabase"
-    )
-        .allowMainThreadQueries()
-        .build()
+    ).build()
 
     @Provides
     @Singleton
