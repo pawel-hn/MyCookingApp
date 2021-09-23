@@ -7,7 +7,7 @@ Saved recipes are stored in Firestore cloud.
 
 ### Build with:
 
-Android Architecture Components, MVVM, Data Binding, Hilt, Room, Retrofit, Paging3, Firebase (Authentication and Firestore) and others.<br>
+Android Architecture Components, MVVM, View Binding, Hilt, Room, Retrofit, Paging3, Firebase (Authentication and Firestore) and others.<br>
 
 ### API source:
 www.spoonacular.com <br>
